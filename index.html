@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<title>propose day ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  transition:background 1.5s ease;
+}
+
+/* Floating hearts */
+.hearts span{
+  position:absolute;
+  font-size:20px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* Card */
+.card{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  animation:pop .8s ease;
+  z-index:10;
+}
+
+h1{color:#ff4b6e;}
+p{font-size:17px;color:#333;}
+
+button{
+  padding:10px 22px;
+  border:none;
+  border-radius:25px;
+  font-size:15px;
+  cursor:pointer;
+  margin:10px;
+  transition:.3s;
+}
+
+button:hover{transform:scale(1.1);}
+.yes{background:#ff4b6e;color:white;}
+.no{background:#ddd;}
+
+img{
+  width:100%;
+  border-radius:15px;
+  margin-top:15px;
+}
+
+/* Confetti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  top:-10px;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+@keyframes pop{
+  0%{transform:scale(.6);opacity:0;}
+  100%{transform:scale(1);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+<div class="card" id="card"></div>
+
+<script>
+const card = document.getElementById("card");
+
+/* LOVE QUESTIONS with right answer */
+const loveQuestions = [
+  {
+    q: "Are you really happy with me kanna? 💖",
+    a: ["Yes 😍", "Hmm 🤔"],
+    right: 0
+  },
+  {
+    q: "Nenu lekapothe miss avuthava? 😢",
+    a: ["Chala🥺", "Ledu "],
+    right: 0
+  },
+  {
+    q: "Will You Be Mine? 💍",
+    a: ["Forever ♾️", "NO "],
+    right: 0
+  }
+];
+
+let currentQuestion = 0;
+
+/* INTRO FLOW */
+function step1(){
+  card.innerHTML = `
+    <h1>Hey kanna 😘</h1>
+    <p>Neku okati cheppali…</p>
+    <button onclick="step2()">Okay</button>
+  `;
+}
+
+function step2(){
+  document.body.style.background =
+    "linear-gradient(135deg,#000428,#004e92)";
+  card.innerHTML = `
+    <p>
+    Nenu ninu first time chusinappudu asalu expect cheyiledhu nuvu na life lo intha important person avvuthavu ani💕<br>
+    nenu nitho ila relation lo untanu ani
+    </p>
+    <button onclick="step3()">Continue</button>
+  `;
+}
+
+function step3(){
+  document.body.style.background =
+    "linear-gradient(135deg,#ff512f,#dd2476)";
+  card.innerHTML = `
+    <p>
+    But I dont know the reason why I Love you So Much i feel like i can do anything if you're with me and if you're by my side 💕<br>
+    chala sarlu anukunta telusa andharilane nitho time spend cheyali ani enka chala anukunta but em chestham anukunna em jaragavu situtaion alantidi
+    but aa day vasthundho ledho naku telidhu,one day aina sare netho happy ga time spend cheyali ani undhi nana
+    nuvu nenu anthe💕
+    </p>
+    <button onclick="proposal()">Next</button>
+  `;
+}
+
+/* PROPOSAL */
+function proposal(){
+  document.body.style.background =
+    "linear-gradient(135deg,#ff758c,#ff7eb3)";
+  card.innerHTML = `
+    <h1></h1>
+    
+    <p>Ee Propose Day ninnu okate adagali…</p>
+    <button class="yes" onclick="yesClick()">YES 💍</button>
+    <button class="no" onmouseover="runAway(this)">NO 🙈</button>
+  `;
+}
+
+/* NO button run away */
+function runAway(btn){
+  const x = Math.random()*260 - 130;
+  const y = Math.random()*260 - 130;
+  btn.style.transform = `translate(${x}px,${y}px)`;
+}
+
+/* YES CLICK */
+function yesClick(){
+  currentQuestion = 0;
+  showLoveQuestion();
+}
+
+/* SHOW QUESTIONS */
+function showLoveQuestion(){
+  const q = loveQuestions[currentQuestion];
+  card.innerHTML = `
+    <h1>Just One Question 💕</h1>
+    <p>${q.q}</p>
+    <button class="yes" onclick="checkAnswer(0)">${q.a[0]}</button>
+    <button class="yes" onclick="checkAnswer(1)">${q.a[1]}</button>
+  `;
+}
+
+/* CHECK ANSWER */
+function checkAnswer(selected){
+  const q = loveQuestions[currentQuestion];
+  if(selected === q.right){
+    currentQuestion++;
+    if(currentQuestion < loveQuestions.length){
+      showLoveQuestion();
+    } else {
+      finalMessage();
+    }
+  } else {
+    teaseRetry();
+  }
+}
+
+/* CUTE TEASE */
+function teaseRetry(){
+  card.innerHTML = `
+    <h1>Ayyo 😜</h1>
+    <p>
+        🤨😒<br>
+      sariga chusi answer chey😜
+    </p>
+    <button class="yes" onclick="showLoveQuestion()">Try Again 🔄</button>
+  `;
+}
+
+/* FINAL MESSAGE */
+function finalMessage(){
+  card.innerHTML = `
+    <h1>I Love You kanna❤️</h1>
+    
+    <img src="image2.jpeg">
+    <p><b>I Love You without any expectation from you 😘
+        Nuvu ekkada unna evaritho unna nuvu happy ga untey chalu nana anthaku minchi nenu em expect cheyanu❤️ </b></p>
+  `;
+  confettiBlast();
+}
+
+/* CONFETTI */
+function confettiBlast(){
+  for(let i=0;i<120;i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    c.style.animationDuration = (Math.random()*2 + 2) + "s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+
+/* FLOATING HEARTS */
+setInterval(()=>{
+  const h = document.createElement("span");
+  h.innerHTML = "❤️";
+  h.style.left = Math.random()*100 + "vw";
+  h.style.fontSize = (Math.random()*20 + 15) + "px";
+  document.getElementById("hearts").appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+step1();
+</script>
+
+</body>
+</html>
